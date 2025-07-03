@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>论文信息收集器</title>
+    <style>
+        body {
+            width: 800px;
+            padding: 15px;
+            font-family: Arial, sans-serif;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .button {
+            padding: 8px 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .button:hover {
+            background-color: #45a049;
+        }
+        .status {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            display: none;
+        }
+        .status.success {
+            background-color: #dff0d8;
+            color: #3c763d;
+        }
+        .status.error {
+            background-color: #f2dede;
+            color: #a94442;
+        }
+        .status.loading {
+            background-color: #d9edf7;
+            color: #31708f;
+        }
+        .paper-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            table-layout: fixed;
+        }
+        .paper-table th,
+        .paper-table td {
+            padding: 8px 6px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+            vertical-align: top;
+            word-break: break-all;
+            white-space: pre-line;
+        }
+        .paper-table th {
+            background-color: #f8fafc;
+            font-weight: 600;
+            color: #333;
+        }
+        .paper-table tr:hover {
+            background-color: #f3f6fa;
+        }
+        .title, .authors, .citation {
+            max-width: 220px;
+            overflow-wrap: break-word;
+            white-space: pre-line;
+        }
+        .citation {
+            color: #555;
+            font-size: 13px;
+        }
+        .url {
+            max-width: 260px;
+            overflow-wrap: break-word;
+        }
+        .url-link {
+            color: #007bff;
+            text-decoration: underline;
+            word-break: break-all;
+        }
+        .url-link:hover {
+            color: #0056b3;
+        }
+        .actions {
+            white-space: nowrap;
+        }
+        .copy-btn, .delete-btn {
+            margin-bottom: 4px;
+        }
+        @media (max-width: 900px) {
+            body { width: 98vw; }
+            .paper-table th, .paper-table td { font-size: 13px; padding: 6px 2px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h2>论文信息收集器</h2>
+        <button id="saveCurrent" class="button">获取当前页面信息</button>
+        <button id="exportExcel" class="button" style="margin-left:10px;">导出Excel</button>
+    </div>
+    <div style="margin-bottom: 10px;">
+        <input id="searchInput" type="text" placeholder="搜索标题、作者、标签..." style="width: 300px; padding: 6px 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px;">
+    </div>
+    <div id="status"></div>
+    <div id="paperList"></div>
+
+    <template id="paperTemplate">
+        <table class="paper-table">
+            <thead>
+                <tr>
+                    <th><input type="checkbox" id="selectAll"></th>
+                    <th>标题</th>
+                    <th>作者</th>
+                    <th>引用</th>
+                    <th>地址</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><input type="checkbox" class="select-row"></td>
+                    <td class="title"></td>
+                    <td class="authors"></td>
+                    <td class="citation"></td>
+                    <td class="url"></td>
+                    <td class="actions">
+                        <button class="favorite-btn">收藏</button>
+                        <button class="copy-btn">复制标题</button>
+                        <button class="copy-btn">复制作者</button>
+                        <button class="copy-btn">复制引用</button>
+                        <button class="delete-btn">删除</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </template>
+
+    <div style="margin: 10px 0;">
+        <button id="batchDelete" class="button" style="background:#dc3545;">批量删除</button>
+    </div>
+
+    <div style="margin-top: 24px; color: #888; font-size: 13px; text-align: center;">
+        本插件仅用于学习与学术交流，不得用于任何商业用途或违法行为。<br>
+        作者：安白　日期：2025年7月2日
+    </div>
+
+    <script src="xlsx.full.min.js"></script>
+    <script src="popup.js"></script>
+</body>
+</html>

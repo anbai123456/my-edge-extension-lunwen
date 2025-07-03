@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>生成图标</title>
+</head>
+<body>
+    <canvas id="canvas16" width="16" height="16"></canvas>
+    <canvas id="canvas48" width="48" height="48"></canvas>
+    <canvas id="canvas128" width="128" height="128"></canvas>
+    <script>
+        function drawIcon(canvas) {
+            const ctx = canvas.getContext('2d');
+            const size = canvas.width;
+            
+            // 设置背景
+            ctx.fillStyle = '#4CAF50';
+            ctx.fillRect(0, 0, size, size);
+            
+            // 绘制文档图标
+            ctx.fillStyle = 'white';
+            const padding = size * 0.2;
+            const docWidth = size - (padding * 2);
+            const docHeight = size - (padding * 2);
+            
+            // 绘制文档主体
+            ctx.fillRect(padding, padding, docWidth, docHeight);
+            
+            // 绘制文档折角
+            ctx.beginPath();
+            ctx.moveTo(padding + docWidth * 0.7, padding);
+            ctx.lineTo(padding + docWidth, padding);
+            ctx.lineTo(padding + docWidth, padding + docHeight * 0.3);
+            ctx.closePath();
+            ctx.fillStyle = '#45a049';
+            ctx.fill();
+            
+            // 绘制文字线条
+            ctx.fillStyle = '#4CAF50';
+            const lineHeight = docHeight / 6;
+            for (let i = 1; i < 5; i++) {
+                ctx.fillRect(
+                    padding + size * 0.1,
+                    padding + lineHeight * i,
+                    docWidth - size * 0.2,
+                    size * 0.05
+                );
+            }
+        }
+
+        // 为每个尺寸的图标调用绘制函数
+        ['16', '48', '128'].forEach(size => {
+            const canvas = document.getElementById(`canvas${size}`);
+            drawIcon(canvas);
+            
+            // 创建下载链接
+            const link = document.createElement('a');
+            link.download = `icon${size}.png`;
+            link.href = canvas.toDataURL('image/png');
+            link.textContent = `下载 ${size}x${size} 图标`;
+            document.body.appendChild(link);
+            document.body.appendChild(document.createElement('br'));
+        });
+    </script>
+</body>
+</html> 
